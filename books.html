@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Fetch Display</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>Lab 4b: Books Display</h2>
+    <div id="output-container"></div>
+    <div id="error-message" class="error"></div>
+
+    <script>
+        async function fetchBooks() {
+            try {
+                // 1. Fetch the data
+                const response = await fetch('books.json');
+                
+                // 2. Handle unsuccessful requests
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                // 3. Parse JSON safely
+                const data = await response.json();
+                const books = data.books;
+                const container = document.getElementById('output-container');
+
+                // (a) Title of the first book
+                const titleElement = document.createElement('p');
+                titleElement.textContent = `${books[0].title};`;
+                container.appendChild(titleElement);
+
+                // (b) Author of the second book
+                const authorElement = document.createElement('p');
+                authorElement.textContent = `${books[1].author};`;
+                container.appendChild(authorElement);
+
+                // (c) Genres of both books, clearly grouped by book title
+                books.forEach(book => {
+                    const genreElement = document.createElement('p');
+                    // Combines the title and joins the array of genres into a readable string
+                    genreElement.textContent = `${book.title} — ${book.genres.join(', ')};`;
+                    container.appendChild(genreElement);
+                });
+
+            } catch (error) {
+                // User-friendly error message for invalid JSON or fetch failure
+                document.getElementById('error-message').textContent = 
+                    "Failed to load the book data. Please make sure the server is running. Details: " + error.message;
+            }
+        }
+
+        // Execute the function
+        fetchBooks();
+    </script>
+</body>
+</html>
