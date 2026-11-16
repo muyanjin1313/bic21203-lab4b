@@ -18,7 +18,7 @@ To run this project locally without encountering CORS errors:
 ## Screenshots
 
 **1. books.json Data Structure**
-![alt text](image-3.png)
+
 
 
 **2. Native Fetch Output (books.html)**
